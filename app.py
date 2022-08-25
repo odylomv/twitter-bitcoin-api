@@ -1,10 +1,12 @@
 import os
+from urllib.parse import parse_qs, urlparse
+
 import tweepy
-from urllib.parse import urlparse, parse_qs
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
-from secret import API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET, CLIENT_ID, CLIENT_SECRET, REDIRECT_URL
+
+import secret as s
 from steganography import hide
 
 app = Flask(__name__)
@@ -12,14 +14,14 @@ app.config['UPLOAD_FOLDER'] = 'images/'
 CORS(app)
 handlers = dict()
 # A Twitter API v1.1 client is needed to upload media
-auth = tweepy.OAuth1UserHandler(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+auth = tweepy.OAuth1UserHandler(s.API_KEY, s.API_SECRET, s.ACCESS_TOKEN, s.ACCESS_TOKEN_SECRET)
 image_uploader = tweepy.API(auth)
 
 
 @app.route('/twitter_auth')
 def twitter_login():
     oauth2_user_handler = tweepy.OAuth2UserHandler(
-        client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URL,
+        client_id=s.CLIENT_ID, client_secret=s.CLIENT_SECRET, redirect_uri=s.REDIRECT_URL,
         scope=['tweet.read', 'tweet.write', 'users.read']
     )
     response = jsonify(oauth2_user_handler.get_authorization_url())

@@ -14,5 +14,8 @@ ACCESS_TOKEN_SECRET = ""
 CLIENT_ID = ""
 CLIENT_SECRET = ""
 
+# Cat API Key https://thecatapi.com/
+CAT_API_KEY = ''
+
 # User authentication settings -> Callback URL
 REDIRECT_URL = ""

@@ -1,6 +1,7 @@
 import os
 from urllib.parse import parse_qs, urlparse
 
+import requests
 import tweepy
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -65,6 +66,14 @@ def post_stego_tweet():
     client.create_tweet(text='#lomvardoBTC', media_ids=[media.media_id], user_auth=False)
 
     return '200'
+
+
+@app.route('/cat_image')
+def get_random_cat():
+    headers = {'x-api-key': s.CAT_API_KEY}
+    response = requests.get('https://api.thecatapi.com/v1/images/search?mime_types=png', headers)
+
+    return response.json()[0]
 
 
 if __name__ == '__main__':

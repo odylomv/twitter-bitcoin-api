@@ -60,5 +60,5 @@ class BitcoinStream(tweepy.StreamingClient):
 
 
 streaming_client = BitcoinStream(s.BEARER_TOKEN)
-streaming_client.add_rules(tweepy.StreamRule('#lomvardoBTC has:media -is:reply'))
+streaming_client.add_rules(tweepy.StreamRule(s.CUSTOM_HASHTAG + ' has:media -is:reply'))
 streaming_client.filter(media_fields=['url'], expansions=['attachments.media_keys'])

@@ -2,20 +2,23 @@
 # https://developer.twitter.com/en/portal/dashboard
 
 # Consumer Keys
-API_KEY = ""
-API_SECRET = ""
+API_KEY = ''
+API_SECRET = ''
 
 # Authentication Tokens
-BEARER_TOKEN = ""
-ACCESS_TOKEN = ""
-ACCESS_TOKEN_SECRET = ""
+BEARER_TOKEN = ''
+ACCESS_TOKEN = ''
+ACCESS_TOKEN_SECRET = ''
 
 # OAuth 2.0 Client ID and Client Secret
-CLIENT_ID = ""
-CLIENT_SECRET = ""
+CLIENT_ID = ''
+CLIENT_SECRET = ''
+
+# Your bot filters tweets using this hashtag
+CUSTOM_HASHTAG = '#temp'
 
 # Cat API Key https://thecatapi.com/
 CAT_API_KEY = ''
 
 # User authentication settings -> Callback URL
-REDIRECT_URL = ""
+REDIRECT_URL = ''

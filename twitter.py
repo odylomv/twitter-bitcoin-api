@@ -32,7 +32,7 @@ def post_response(tweet_id, tweet_secret):
     hide(CLEAN_IMAGE_PATH, tweet_secret, image_path)
 
     media = image_uploader.media_upload(image_path)
-    client.create_tweet(text='Hi there!', media_ids=[media.media_id], in_reply_to_tweet_id=tweet_id, user_auth=True)
+    client.create_tweet(text='Hi there!', media_ids=[media.media_id], in_reply_to_tweet_id=tweet_id)
 
 
 class BitcoinStream(tweepy.StreamingClient):

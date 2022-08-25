@@ -1,12 +1,12 @@
 import os
 from urllib.parse import parse_qs, urlparse
 
-import requests
 import tweepy
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
+import cat
 import secret as s
 from steganography import hide
 
@@ -48,14 +48,21 @@ def twitter_get_access_token():
 def post_stego_tweet():
     access_token = request.form.get('access_token')
     tweet_secret = request.form.get('tweet_secret')
-    image = request.files.get('tweet_image')
-
-    if '.' not in image.filename and image.filename.rsplit('.', 1)[1].lower() != '.png':
-        return '-1'
+    image_method = request.form.get('image_method')
 
     original_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(access_token + '.png'))
     secret_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(access_token + '_secret.png'))
-    image.save(original_path)
+
+    if image_method == 'local':
+        image = request.files.get('tweet_image')
+
+        if '.' not in image.filename and image.filename.rsplit('.', 1)[1].lower() != '.png':
+            return '-1'
+
+        image.save(original_path)
+    else:
+        cat.download_random_cat(original_path)
+
     hide(original_path, tweet_secret, secret_path)
 
     client = tweepy.Client(access_token)
@@ -69,11 +76,8 @@ def post_stego_tweet():
 
 
 @app.route('/cat_image')
-def get_random_cat():
-    headers = {'x-api-key': s.CAT_API_KEY}
-    response = requests.get('https://api.thecatapi.com/v1/images/search?mime_types=png', headers)
-
-    return response.json()[0]
+def cat_image():
+    return cat.get_random_cat()
 
 
 if __name__ == '__main__':

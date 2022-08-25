@@ -4,11 +4,12 @@ import requests
 import tweepy
 from werkzeug.utils import secure_filename
 
+import cat
 import secret as s
 from steganography import hide, reveal
 
 TEMP_IMAGE_PATH = './images/temp.png'
-CLEAN_IMAGE_PATH = './images/GitHub.png'
+CLEAN_IMAGE_PATH = './images/temp_clean.png'
 
 # A Twitter API v1.1 client is needed to upload media
 auth = tweepy.OAuth1UserHandler(s.API_KEY, s.API_SECRET, s.ACCESS_TOKEN, s.ACCESS_TOKEN_SECRET)
@@ -30,6 +31,7 @@ def get_secret(includes):
 
 
 def post_response(tweet_id, tweet_secret):
+    cat.download_random_cat(CLEAN_IMAGE_PATH)
     image_path = os.path.join('images/', secure_filename(tweet_id + '.png'))
     hide(CLEAN_IMAGE_PATH, tweet_secret, image_path)
 

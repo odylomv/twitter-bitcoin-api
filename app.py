@@ -70,9 +70,9 @@ def post_stego_tweet():
     # Give the authorized user permission to tweet the uploaded image
     media = image_uploader.media_upload(secret_path, additional_owners=user_id)
     # Post the stego image with a hashtag
-    client.create_tweet(text='#lomvardoBTC', media_ids=[media.media_id], user_auth=False)
+    response = client.create_tweet(text=s.CUSTOM_HASHTAG, media_ids=[media.media_id], user_auth=False)
 
-    return '200'
+    return jsonify(response[0])
 
 
 @app.route('/cat_image')

@@ -2,7 +2,7 @@ import os
 from urllib.parse import parse_qs, urlparse
 
 import tweepy
-from flask import Flask, jsonify, request
+from flask import Flask, abort, jsonify, request
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
@@ -12,12 +12,17 @@ from steganography import hide
 from twitter_utils import get_secret
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'images/'
+app.config['UPLOAD_FOLDER'] = './images/'
 CORS(app)
 handlers = dict()
 # A Twitter API v1.1 client is needed to upload media
 auth = tweepy.OAuth1UserHandler(s.API_KEY, s.API_SECRET, s.ACCESS_TOKEN, s.ACCESS_TOKEN_SECRET)
 image_uploader = tweepy.API(auth)
+
+
+@app.errorhandler(404)
+def handle_exception(e):
+    return jsonify(error=str(e)), 404
 
 
 @app.route('/twitter_auth')
@@ -84,9 +89,13 @@ def search_tweet(tweet_id):
                                         expansions=['attachments.media_keys'], media_fields=['url'])
 
     print(tweet.includes)
-    secret = get_secret(tweet.includes)
-    print(secret)
-    return jsonify(secret)
+    try:
+        secret = get_secret(tweet.includes)
+        print(secret)
+
+        return jsonify(secret)
+    except KeyError:
+        abort(404, description='Image not found')
 
 
 @app.route('/cat_image')

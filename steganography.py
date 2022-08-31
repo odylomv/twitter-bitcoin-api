@@ -12,7 +12,7 @@ def check_image(path):
 
 
 def shrink_big_images(path):
-    if os.path.getsize(path) > 2097152:  # 2MB
+    if os.path.getsize(path) > 1048576:  # 1MB
         img = Image.open(path)
         ratio = min(512 / img.width, 512 / img.height)
         img.thumbnail((int(img.width * ratio), int(img.height * ratio)), Image.ANTIALIAS)

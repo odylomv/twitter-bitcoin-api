@@ -55,6 +55,7 @@ def post_stego_tweet():
     access_token = request.form.get('access_token')
     tweet_secret = request.form.get('tweet_secret')
     image_method = request.form.get('image_method')
+    blockchain = request.form.get('blockchain')
 
     original_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(access_token + '.png'))
     secret_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(access_token + '_secret.png'))
@@ -69,7 +70,7 @@ def post_stego_tweet():
     else:
         cat.download_random_cat(original_path)
 
-    hide(original_path, tweet_secret, secret_path)
+    hide(original_path, tweet_secret + '@' + blockchain, secret_path)
 
     client = tweepy.Client(access_token)
     user_id = client.get_me(user_auth=False).data['id']

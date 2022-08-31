@@ -1,14 +1,13 @@
 import os
 
-import requests
 import tweepy
 from werkzeug.utils import secure_filename
 
 import cat
 import secret as s
-from steganography import hide, reveal
+from steganography import hide
+from twitter_utils import get_secret
 
-TEMP_IMAGE_PATH = './images/temp.png'
 CLEAN_IMAGE_PATH = './images/temp_clean.png'
 
 # A Twitter API v1.1 client is needed to upload media
@@ -21,21 +20,20 @@ client = tweepy.Client(
 )
 
 
-def get_secret(includes):
-    url = includes['media'][0].url
-    response = requests.get(url)
-
-    with open(TEMP_IMAGE_PATH, 'wb') as file:
-        file.write(response.content)
-    return reveal(TEMP_IMAGE_PATH)
-
-
 def post_response(tweet_id, tweet_secret):
     cat.download_random_cat(CLEAN_IMAGE_PATH)
-    image_path = os.path.join('images/', secure_filename(tweet_id + '.png'))
-    hide(CLEAN_IMAGE_PATH, tweet_secret, image_path)
+    print('Cat downloaded')
+    image_path = os.path.join('./images/', secure_filename(tweet_id + '.png'))
+    if tweet_secret is None:
+        hide(CLEAN_IMAGE_PATH, 'NONE', image_path)
+    else:
+        hide(CLEAN_IMAGE_PATH, tweet_secret + '-response', image_path)
 
-    media = image_uploader.media_upload(image_path)
+    print('Secret hidden')
+
+    user_id = client.get_me().data['id']
+    media = image_uploader.media_upload(image_path, additional_owners=user_id)
+    print('Starting upload...')
     client.create_tweet(text='Hi there!', media_ids=[media.media_id], in_reply_to_tweet_id=tweet_id)
 
 
@@ -56,6 +54,7 @@ class BitcoinStream(tweepy.StreamingClient):
     def on_response(self, response):
         print(response.data.data)
         tweet_secret = get_secret(response.includes)
+        print('Posting...')
         post_response(response.data.data['id'], tweet_secret)
 
 

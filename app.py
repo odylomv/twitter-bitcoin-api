@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 import cat
 import secret as s
 from steganography import hide
+from twitter_utils import get_secret
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'images/'
@@ -73,6 +74,19 @@ def post_stego_tweet():
     response = client.create_tweet(text=s.CUSTOM_HASHTAG, media_ids=[media.media_id], user_auth=False)
 
     return jsonify(response[0])
+
+
+@app.route('/twitter_search/<tweet_id>', methods=['POST'])
+def search_tweet(tweet_id):
+    access_token = request.get_json()['access_token']
+    client = tweepy.Client(access_token)
+    tweet = client.search_recent_tweets('from:lomvardobot in_reply_to_tweet_id:' + tweet_id,
+                                        expansions=['attachments.media_keys'], media_fields=['url'])
+
+    print(tweet.includes)
+    secret = get_secret(tweet.includes)
+    print(secret)
+    return jsonify(secret)
 
 
 @app.route('/cat_image')

@@ -228,6 +228,17 @@ piexif = ">=1.1.3,<2.0.0"
 pillow = ">=9.0.0,<10.0.0"
 
 [[package]]
+name = "steganography"
+version = "0.1.1"
+description = "Digital image steganography of encrypted text"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+pillow = "*"
+
+[[package]]
 name = "tweepy"
 version = "4.10.1"
 description = "Twitter library for Python"
@@ -255,8 +266,8 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, <4"
 
 [package.extras]
-brotli = ["brotlicffi (>=0.8.0)", "brotli (>=1.0.9)", "brotlipy (>=0.6.0)"]
-secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "certifi", "urllib3-secure-extra", "ipaddress"]
+brotli = ["brotli (>=1.0.9)", "brotlicffi (>=0.8.0)", "brotlipy (>=0.6.0)"]
+secure = ["certifi", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "ipaddress", "pyOpenSSL (>=0.14)", "urllib3-secure-extra"]
 socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
@@ -275,8 +286,8 @@ watchdog = ["watchdog"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "3.10"
-content-hash = "3f421d3a6c6796bfaf40e0b0827ee539e98c7a544d1ccadb886adc4838221a7d"
+python-versions = "~3.10"
+content-hash = "37fdb81307f5d9a7702b2a0994977b25faaffc668fdd461c1f1db3298fc43263"
 
 [metadata.files]
 certifi = [
@@ -483,6 +494,9 @@ six = [
 stegano = [
     {file = "stegano-0.10.2-py3-none-any.whl", hash = "sha256:2d963da008195d210f65023a8605422af02be625708a440d2703a69d3588c6d2"},
     {file = "stegano-0.10.2.tar.gz", hash = "sha256:67ec1c918f0cbde19b8f2fedb22d7b3c5d5652d674ac381d9409cbf8f319c94e"},
+]
+steganography = [
+    {file = "steganography-0.1.1.tar.gz", hash = "sha256:50465ad9dd07b1286ff69eeea93984a2e7437fb4f62571236a25fa158a98ee97"},
 ]
 tweepy = [
     {file = "tweepy-4.10.1-py3-none-any.whl", hash = "sha256:0a21396b646af4fcee69762d2908c104e1fe2e2c4e1dfd6e6078a41b38771382"},

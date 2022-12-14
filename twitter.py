@@ -29,6 +29,7 @@ def post_response(tweet_id, tweet_secret):
     else:
         hide(CLEAN_IMAGE_PATH, tweet_secret + '-response', image_path)
 
+
     print('Secret hidden')
 
     user_id = client.get_me().data['id']

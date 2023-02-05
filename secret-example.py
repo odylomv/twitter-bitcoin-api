@@ -14,6 +14,8 @@ ACCESS_TOKEN_SECRET = ''
 CLIENT_ID = ''
 CLIENT_SECRET = ''
 
+# This is the Twitter username of your bot
+BOT_USERNAME = 'mybot'
 # Your bot filters tweets using this hashtag
 CUSTOM_HASHTAG = '#temp'
 
@@ -22,3 +24,10 @@ CAT_API_KEY = ''
 
 # User authentication settings -> Callback URL
 REDIRECT_URL = ''
+
+# Your bitcoin node RPC credentials
+RPC_PROTOCOL = 'http'   # or https
+RPC_USER = 'username'
+RPC_PASS = 'password'
+RPC_HOST = '127.0.0.1'
+RPC_PORT = '18332'
